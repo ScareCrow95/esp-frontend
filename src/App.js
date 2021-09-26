@@ -43,7 +43,7 @@ const App = () => {
         const client = mqtt.connect(
             'broker.hivemq.com',
             Number(8000),
-            'mqtt',
+            'mqtts',
             () => {},
             ({ payloadString }) => {
                 const temp = { ...data }

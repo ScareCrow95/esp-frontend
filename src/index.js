@@ -16,14 +16,7 @@ export const darkTheme = ReactDOM.render(
                 },
             })}
         >
-            {/* <Connector
-                mqttProps={{
-                    url: 'ws://test.mosquitto.org:8080',
-                    options: { protocol: 'ws' }, // see MQTTjs options
-                }}
-            > */}
             <App />
-            {/* </Connector> */}
         </ChakraProvider>
     </React.StrictMode>,
     document.getElementById('root'),

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { Box, Text, Center, Flex, Image, Circle, Icon } from '@chakra-ui/react'
-import * as mqtt from 'react-paho-mqtt'
+import { Box, Flex, Text } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
+import * as mqtt from 'react-paho-mqtt'
 
 const App = () => {
     const [data, setData] = useState({
@@ -47,7 +47,10 @@ const App = () => {
             () => {},
             ({ payloadString }) => {
                 const temp = { ...data }
-
+                if (temp.labels.length > 80) {
+                    temp.labels = []
+                    temp.datasets[0].data = []
+                }
                 temp.labels.push(new Date().toLocaleTimeString('en-US'))
                 temp.datasets[0].data.push(parseFloat(payloadString))
                 setData(temp)

@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { Line } from 'react-chartjs-2'
-import * as mqtt from 'react-paho-mqtt'
+import { connect } from 'react-paho-mqtt'
 
 const App = () => {
     const [data, setData] = useState({
@@ -40,20 +40,20 @@ const App = () => {
     }
 
     useEffect(() => {
-        const client = mqtt.connect(
+        const client = connect(
             'broker.hivemq.com',
             Number(8000),
             'mqtts',
             () => {},
             ({ payloadString }) => {
-                const temp = { ...data }
-                if (temp.labels.length > 80) {
-                    temp.labels = []
-                    temp.datasets[0].data = []
+                const tempData = { ...data }
+                if (tempData.labels.length > 80) {
+                    tempData.labels = []
+                    tempData.datasets[0].data = []
                 }
-                temp.labels.push(new Date().toLocaleTimeString('en-US'))
-                temp.datasets[0].data.push(parseFloat(payloadString))
-                setData(temp)
+                tempData.labels.push(new Date().toLocaleTimeString('en-US'))
+                tempData.datasets[0].data.push(Math.max(0, Math.min(parseFloat(payloadString), 60)))
+                setData(tempData)
             },
         )
         client.connect({
